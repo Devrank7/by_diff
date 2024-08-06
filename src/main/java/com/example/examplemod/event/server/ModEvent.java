@@ -111,7 +111,7 @@ public class ModEvent {
                                     float destroyTime = castBlock.defaultDestroyTime();
                                     int bounds = (int) (destroyTime * 50);
                                     int origin = (int) (destroyTime * 16);
-                                    if (shootGoal.getRightShoots() * (shootGoal.getStrengthSkileton() / 10) > skeleton.getRandom().nextInt(origin, bounds)) {
+                                    if (shootGoal.getRightShoots() * (shootGoal.getStrengthSkileton() / 10) > random.nextInt(origin, bounds)) {
                                         event.getEntity().level().destroyBlock(hitPos, false, skeleton);
                                         event.getProjectile().remove(Entity.RemovalReason.DISCARDED);
                                     }
@@ -145,8 +145,8 @@ public class ModEvent {
 
     private static void giveEffect(DifficultyInstance difficultyInstance, Player player, Monster monster) {
         float f = (float) Math.pow(difficultyInstance.getSpecialMultiplier(), 2) * 0.015f;
-        if (monster.getRandom().nextFloat() < f) {
-            RandomEffectUtils.EffectData effectData = RandomEffectUtils.getRandomEffectForType(monster, difficultyInstance, monster.getRandom());
+        if (random.nextFloat() < f) {
+            RandomEffectUtils.EffectData effectData = RandomEffectUtils.getRandomEffectForType(monster, difficultyInstance, random);
             if (effectData == null) return;
             player.addEffect(new MobEffectInstance(effectData.effect(), effectData.duration(), effectData.amplifier()));
         }

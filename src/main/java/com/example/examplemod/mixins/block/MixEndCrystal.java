@@ -53,7 +53,6 @@ public class MixEndCrystal extends Entity {
         } else if (p_31050_.getEntity() instanceof EnderDragon) {
             return false;
         } else if (flag && flag1) {
-            System.err.println("WTF");
             return false;
         } else {
             if (!this.isRemoved() && !this.level().isClientSide) {

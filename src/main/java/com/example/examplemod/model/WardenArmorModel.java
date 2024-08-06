@@ -24,9 +24,6 @@ public class WardenArmorModel extends MyEnergySwirlLayer<Warden, WardenModel<War
 
     public WardenArmorModel(RenderLayerParent<Warden, WardenModel<Warden>> p_174554_, EntityModelSet p_174555_) {
         super(p_174554_);
-        for (ModelLayerLocation modelLayerLocation : ModelLayers.getKnownLocations().toList()) {
-            System.err.println("Location = " + modelLayerLocation);
-        }
         this.model = new WardenModel<>(p_174555_.bakeLayer(WARDEN_ARMOR));
     }
 

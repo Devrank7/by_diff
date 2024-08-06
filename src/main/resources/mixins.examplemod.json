@@ -6,7 +6,6 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "MixItem",
-    "MixSwordItem",
     "block.MixEndCrystal",
     "block.MixFireBlock",
     "boss.MixSonicBoom",

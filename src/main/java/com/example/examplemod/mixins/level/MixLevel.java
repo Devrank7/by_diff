@@ -56,16 +56,10 @@ public class MixLevel implements ILevel {
             ModMessage.sendToServer(new PGetServerDifficulty());
             while (DifficultyHandler.isNulls()) {
                 Thread.onSpinWait();
-                System.err.println("IS NULLS");
             }
             DifficultyGeneral difficultyGeneral = DifficultyHandler.getDifficultyGeneral();
-            System.err.println("DIFFICULTY: " + difficultyGeneral);
-            System.err.println("RESET DIFFICULTY: " + difficultyGeneral);
             DifficultyHandler.isNeedToUpdate = false;
             return difficultyGeneral;
-        }
-        if (level.getRandom().nextInt(100) == 0) {
-            System.err.println("isNulls: " + DifficultyHandler.isNulls());
         }
         return DifficultyHandler.isNulls() ? DifficultyGeneral.NORMAL : DifficultyHandler.getDifficultyGeneral();
     }

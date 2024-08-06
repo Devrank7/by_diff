@@ -108,7 +108,6 @@ public class MixPrimaryData implements IPrimaryLevelData {
         if (primaryLevelData.getWanderingTraderId() != null) {
             p_78547_.putUUID("WanderingTraderId", primaryLevelData.getWanderingTraderId());
         }
-        System.err.println("SOME");
 
         p_78547_.putString("forgeLifecycle", net.minecraftforge.common.ForgeHooks.encodeLifecycle(primaryLevelData.getLevelSettings().getLifecycle()));
         p_78547_.putBoolean("confirmedExperimentalSettings", primaryLevelData.hasConfirmedExperimentalWarning());
@@ -117,7 +116,6 @@ public class MixPrimaryData implements IPrimaryLevelData {
     @Override
     @Unique
     public void setDifficultyGeneral(DifficultyGeneral difficultyGeneral) {
-        System.err.println("HERE'S");
         PrimaryLevelData primaryLevelData = (PrimaryLevelData) (Object) this;
         settings = ((ILevelSettings) (Object) primaryLevelData.getLevelSettings()).withDifficultGen(difficultyGeneral);
     }

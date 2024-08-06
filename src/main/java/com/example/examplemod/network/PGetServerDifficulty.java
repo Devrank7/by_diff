@@ -25,7 +25,6 @@ public class PGetServerDifficulty {
     public void handle(CustomPayloadEvent.Context event) {
         if (event.isServerSide()) {
             ServerPlayer player = event.getSender();
-            System.err.println("IN SERVER");
             DifficultyGeneral difficultyGeneral = ((ILevel) player.level()).getDifficultyGen();
             DifficultyHandler.setDifficultyGeneral(difficultyGeneral);
         } else {

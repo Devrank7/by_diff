@@ -32,8 +32,8 @@ public class MixCreeper extends Monster {
         SpawnGroupData spawnGroupData = super.finalizeSpawn(p_21434_, p_21435_, p_21436_, p_21437_);
         DifficultyGeneral difficultyGeneral = ((IDifficultyInstance) p_21435_).getDifficultyGen();
         float f = switch (difficultyGeneral) {
-            case INSANE -> 0.2F;
-            case NIGHTMARE -> 0.5f;
+            case INSANE -> 0.2F * (p_21435_.getSpecialMultiplier() * 0.3f);
+            case NIGHTMARE -> 0.5f * (p_21435_.getSpecialMultiplier() * 0.3f);
             default -> 0.0F;
         };
         if (random.nextFloat() < f) {

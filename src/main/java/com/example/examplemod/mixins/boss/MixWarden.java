@@ -3,6 +3,7 @@ package com.example.examplemod.mixins.boss;
 import com.example.examplemod.difficulty.DifficultyGeneral;
 import com.example.examplemod.intrtfaces.ILevel;
 import com.example.examplemod.intrtfaces.IWarden;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ColorParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerBossEvent;
@@ -34,6 +35,11 @@ import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.ProjectileDeflection;
 import net.minecraft.world.entity.projectile.Snowball;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.LeavesBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -45,7 +51,7 @@ import static net.minecraft.world.entity.monster.warden.Warden.applyDarknessArou
 @Mixin(Warden.class)
 public abstract class MixWarden extends Monster implements IWarden {
 
-    private final ServerBossEvent bossEvent = (ServerBossEvent)new ServerBossEvent(
+    private final ServerBossEvent bossEvent = (ServerBossEvent) new ServerBossEvent(
             this.getDisplayName(), BossEvent.BossBarColor.BLUE, BossEvent.BossBarOverlay.PROGRESS
     )
             .setDarkenScreen(true);
@@ -54,6 +60,7 @@ public abstract class MixWarden extends Monster implements IWarden {
         super(p_33002_, p_33003_);
         this.angerManagement = angerManagement;
     }
+
     private static final ProjectileDeflection PROJECTILE_DEFLECTION = (p_341445_, p_341446_, p_341447_) -> {
         p_341446_.level().playSound(null, p_341446_, SoundEvents.BREEZE_DEFLECT, p_341446_.getSoundSource(), 1.0F, 1.0F);
         ProjectileDeflection.REVERSE.deflect(p_341445_, p_341446_, p_341447_);
@@ -102,9 +109,9 @@ public abstract class MixWarden extends Monster implements IWarden {
             this.level()
                     .addParticle(
                             ParticleTypes.SMOKE,
-                            d8 + this.random.nextGaussian() * (double)f,
-                            d10 + this.random.nextGaussian() * (double)f,
-                            d2 + this.random.nextGaussian() * (double)f,
+                            d8 + this.random.nextGaussian() * (double) f,
+                            d10 + this.random.nextGaussian() * (double) f,
+                            d2 + this.random.nextGaussian() * (double) f,
                             0.0,
                             0.0,
                             0.0
@@ -113,17 +120,57 @@ public abstract class MixWarden extends Monster implements IWarden {
                 this.level()
                         .addParticle(
                                 ColorParticleOption.create(ParticleTypes.ENTITY_EFFECT, 0.7F, 0.7F, 0.5F),
-                                d8 + this.random.nextGaussian() * (double)f,
-                                d10 + this.random.nextGaussian() * (double)f,
-                                d2 + this.random.nextGaussian() * (double)f,
+                                d8 + this.random.nextGaussian() * (double) f,
+                                d10 + this.random.nextGaussian() * (double) f,
+                                d2 + this.random.nextGaussian() * (double) f,
                                 0.0,
                                 0.0,
                                 0.0
                         );
             }
         }
+        if (getAngerLevel().isAngry() && this.horizontalCollision && net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level(), this)) {
+            boolean flag1 = false;
+            boolean flag2 = false;
+            AABB aabb = this.getBoundingBox().inflate(0.2);
+            for (BlockPos blockpos : BlockPos.betweenClosed(
+                    Mth.floor(aabb.minX),
+                    Mth.floor(aabb.maxY - 1),
+                    Mth.floor(aabb.minZ),
+                    Mth.floor(aabb.maxX),
+                    Mth.floor(aabb.maxY),
+                    Mth.floor(aabb.maxZ))) {
+                BlockState blockstate = this.level().getBlockState(blockpos);
+                Block block = blockstate.getBlock();
+                if (block.defaultDestroyTime() < 30 && block.defaultDestroyTime() != 0) {
+                    flag2 = true;
+                    break;
+                }
+            }
+            if (flag2) {
+                for (BlockPos blockpos : BlockPos.betweenClosed(
+                        Mth.floor(aabb.minX),
+                        Mth.floor(aabb.minY + 0.2f),
+                        Mth.floor(aabb.minZ),
+                        Mth.floor(aabb.maxX),
+                        Mth.floor(aabb.maxY),
+                        Mth.floor(aabb.maxZ)
+                )) {
+                    BlockState blockstate = this.level().getBlockState(blockpos);
+                    Block block = blockstate.getBlock();
+                    if (block.defaultDestroyTime() < 30) {
+                        flag1 = this.level().destroyBlock(blockpos, true, this) || flag1;
+                    }
+                }
+
+                if (!flag1 && this.onGround()) {
+                    this.jumpFromGround();
+                }
+            }
+        }
 
     }
+
     /**
      * @author
      * @reason
@@ -150,7 +197,6 @@ public abstract class MixWarden extends Monster implements IWarden {
             if (isPowered() && getAngerLevel().isAngry() && (my_difficulty == DifficultyGeneral.INSANE || my_difficulty == DifficultyGeneral.NIGHTMARE)) {
                 int i = my_difficulty == DifficultyGeneral.NIGHTMARE ? 3 : 1;
                 this.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 50, i));
-                System.err.println("extreme");
             }
             this.angerManagement.tick(serverlevel, this::canTargetEntity);
             this.syncClientAngerLevel();
@@ -185,7 +231,7 @@ public abstract class MixWarden extends Monster implements IWarden {
     @Override
     @Overwrite
     public boolean hurt(DamageSource p_219381_, float p_219382_) {
-        DifficultyGeneral difficultyGeneral = ((ILevel)level()).getDifficultyGen();
+        DifficultyGeneral difficultyGeneral = ((ILevel) level()).getDifficultyGen();
         float damage = p_219382_;
         if (isPowered() && (difficultyGeneral == DifficultyGeneral.INSANE || difficultyGeneral == DifficultyGeneral.NIGHTMARE)) {
             if (p_219381_.getDirectEntity() instanceof Projectile projectile) {
@@ -194,7 +240,6 @@ public abstract class MixWarden extends Monster implements IWarden {
                 if (deflection != ProjectileDeflection.NONE) {
                     projectile.deflect(deflection, this, projectile.getOwner(), false);
                 }
-                System.err.println("projectile = " + damage + " size = " + p_219382_);
                 float force = difficultyGeneral == DifficultyGeneral.NIGHTMARE ? 4.5F : 2.2f;
                 if (damage < force) return false;
             }
@@ -212,46 +257,46 @@ public abstract class MixWarden extends Monster implements IWarden {
 
         return flag;
     }
+
     @Override
     public ProjectileDeflection deflection(Projectile p_335920_) {
-        System.err.println("deflection = " + p_335920_.getType());
         return PROJECTILE_DEFLECTION;
 
     }
+
     @Override
     @Unique
     public boolean isPowered() {
-        DifficultyGeneral difficultyGeneral = ((ILevel)level()).getDifficultyWithCheckClient();
-        if (random.nextInt(1000) == 0) {
-            System.err.println("difficulty = " + difficultyGeneral);
-        }
+        DifficultyGeneral difficultyGeneral = ((ILevel) level()).getDifficultyWithCheckClient();
         boolean powered = difficultyGeneral == DifficultyGeneral.INSANE || difficultyGeneral == DifficultyGeneral.NIGHTMARE;
         return powered && this.getHealth() <= this.getMaxHealth() / 2.0F;
     }
+
     private double getHeadX(int p_31515_) {
         if (p_31515_ <= 0) {
             return this.getX();
         } else {
-            float f = (this.yBodyRot + (float)(180 * (p_31515_ - 1))) * (float) (Math.PI / 180.0);
+            float f = (this.yBodyRot + (float) (180 * (p_31515_ - 1))) * (float) (Math.PI / 180.0);
             float f1 = Mth.cos(f);
-            return this.getX() + (double)f1 * 1.3 * (double)this.getScale();
+            return this.getX() + (double) f1 * 1.3 * (double) this.getScale();
         }
     }
 
     private double getHeadY(int p_31517_) {
         float f = p_31517_ <= 0 ? 3.0F : 2.2F;
-        return this.getY() + (double)(f * this.getScale());
+        return this.getY() + (double) (f * this.getScale());
     }
 
     private double getHeadZ(int p_31519_) {
         if (p_31519_ <= 0) {
             return this.getZ();
         } else {
-            float f = (this.yBodyRot + (float)(180 * (p_31519_ - 1))) * (float) (Math.PI / 180.0);
+            float f = (this.yBodyRot + (float) (180 * (p_31519_ - 1))) * (float) (Math.PI / 180.0);
             float f1 = Mth.sin(f);
-            return this.getZ() + (double)f1 * 1.3 * (double)this.getScale();
+            return this.getZ() + (double) f1 * 1.3 * (double) this.getScale();
         }
     }
+
     @Override
     public void startSeenByPlayer(ServerPlayer p_31483_) {
         super.startSeenByPlayer(p_31483_);

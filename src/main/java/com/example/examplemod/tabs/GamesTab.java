@@ -92,10 +92,10 @@ public class GamesTab extends GridLayoutTab {
                 layoutsettings
         );
         screen.getUiState().addListener(p_280905_ -> {
-            System.err.println("Difficulty: " + screen.getUiState().getDifficulty());
             cyclebutton1.setValue(((IWorldTab) (Object) screen).getDifficultyGen());
             cyclebutton1.active = !screen.getUiState().isHardcore();
-            cyclebutton1.setTooltip(Tooltip.create(screen.getUiState().getDifficulty().getInfo()));
+            Component component = ((IWorldTab) (Object) screen).getDifficultyGen().getInfo();
+            cyclebutton1.setTooltip(Tooltip.create(component));
         });
         CycleButton<Boolean> cyclebutton2 = gridlayout$rowhelper.addChild(
                 CycleButton.onOffBuilder()

@@ -54,8 +54,8 @@ public class BlazeAttackGoal extends Goal{
         if (livingentity != null) {
             DifficultyGeneral difficultyGeneral = ((ILevel)this.blaze.level()).getDifficultyGen();
             int k = switch (difficultyGeneral) {
-                case INSANE -> blaze.getRandom().nextBoolean() ? 2 : 1;
-                case NIGHTMARE -> blaze.getRandom().nextBoolean() ? 3 : 7;
+                case INSANE -> blaze.getRandom().nextBoolean() ? 3 : 2;
+                case NIGHTMARE -> blaze.getRandom().nextBoolean() ? 5 : 7;
                 default -> 0;
             };
             boolean flag = this.blaze.getSensing().hasLineOfSight(livingentity);

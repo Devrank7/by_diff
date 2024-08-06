@@ -31,7 +31,7 @@ public class MixCaveSpider extends Spider {
                     default -> 0;
                 };
                 if (i > 0) {
-                    ((LivingEntity)p_32257_).addEffect(new MobEffectInstance(MobEffects.POISON, i * 20, lev_diff == DifficultyGeneral.NIGHTMARE ? 2 : 0), this);
+                    ((LivingEntity)p_32257_).addEffect(new MobEffectInstance(MobEffects.POISON, i * 20, lev_diff == DifficultyGeneral.NIGHTMARE ? 1 : 0), this);
                 }
             }
 

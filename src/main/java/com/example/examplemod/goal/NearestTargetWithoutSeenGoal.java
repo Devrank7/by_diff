@@ -62,9 +62,6 @@ public class NearestTargetWithoutSeenGoal<T extends LivingEntity> extends Target
             }), this.targetConditions, this.mob, this.mob.getX(), this.mob.getEyeY(), this.mob.getZ());
         } else {
             this.target = this.mob.level().getNearestPlayer(mob.getX(), mob.getEyeY(), mob.getZ(), 30, false);
-            if (this.target == null && mob.getRandom().nextFloat() < 0.005F) {
-                System.err.println("Target is null");
-            }
         }
 
     }

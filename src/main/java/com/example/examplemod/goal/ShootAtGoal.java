@@ -232,12 +232,11 @@ public class ShootAtGoal extends Goal {
     }
 
     public void performRangedAttack(AbstractSkeleton skeleton, BlockPos targetPos, float velocity) {
-        ItemStack itemstack = skeleton.getProjectile(skeleton.getItemInHand(ProjectileUtil.getWeaponHoldingHand(skeleton, item -> item instanceof net.minecraft.world.item.BowItem)));
+        ItemStack itemstack = skeleton.getItemInHand(ProjectileUtil.getWeaponHoldingHand(skeleton, item -> item instanceof net.minecraft.world.item.BowItem));
         ItemStack itemstack1 = skeleton.getProjectile(itemstack);
-        AbstractArrow abstractarrow = ProjectileUtil.getMobArrow(skeleton, itemstack, velocity, itemstack1);
-
-        if (skeleton.getMainHandItem().getItem() instanceof net.minecraft.world.item.BowItem) {
-            abstractarrow = ((net.minecraft.world.item.BowItem) skeleton.getMainHandItem().getItem()).customArrow(abstractarrow);
+        AbstractArrow abstractarrow = ProjectileUtil.getMobArrow(skeleton, itemstack1, velocity, itemstack);
+        if (skeleton.getMainHandItem().getItem() instanceof net.minecraft.world.item.BowItem bow) {
+            abstractarrow = bow.customArrow(abstractarrow);
         }
 
         double d0 = targetPos.getX() + 0.5 - skeleton.getX();

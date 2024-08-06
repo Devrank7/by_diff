@@ -60,10 +60,10 @@ public abstract class MixPlayer extends LivingEntity {
                         p_36155_ = p_36155_ * 3.0F / 2.0F;
                     }
                     if (my_difficult == DifficultyGeneral.INSANE) {
-                        p_36155_ = p_36155_ * 2.0F;
+                        p_36155_ = p_36155_ * (random.nextBoolean() ? 2.0f : 1.75f);
                     }
                     if (my_difficult == DifficultyGeneral.NIGHTMARE) {
-                        p_36155_ = p_36155_ * 3.0F;
+                        p_36155_ = p_36155_ * 2.25F;
                     }
                 }
 

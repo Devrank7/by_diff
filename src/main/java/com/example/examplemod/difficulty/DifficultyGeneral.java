@@ -38,7 +38,10 @@ public enum DifficultyGeneral {
     }
 
     public Component getName() {
-        return Component.translatable(name);
+        return Component.translatable("difficulty." + name);
+    }
+    public Component getInfo() {
+        return Component.translatable("difficulty." + name + ".info");
     }
 
     public void setName(String name) {

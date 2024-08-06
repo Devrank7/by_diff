@@ -42,7 +42,6 @@ public interface MixVanilaEnchantmentProvider {
     static void bootstrap(BootstrapContext<EnchantmentProvider> p_344835_) {
         HolderGetter<Enchantment> holdergetter = p_344835_.lookup(Registries.ENCHANTMENT);
         p_344835_.register(MOB_SPAWN_EQUIPMENT, new EnchantmentsByCostWithDifficulty(holdergetter.getOrThrow(EnchantmentTags.ON_MOB_SPAWN_EQUIPMENT), 30, 40));
-        System.err.println("REGISTRED");
         p_344835_.register(PILLAGER_SPAWN_CROSSBOW, new SingleEnchantment(holdergetter.getOrThrow(Enchantments.PIERCING), ConstantInt.of(1)));
         p_344835_.register(RAID_PILLAGER_POST_WAVE_3, new SingleEnchantment(holdergetter.getOrThrow(Enchantments.QUICK_CHARGE), ConstantInt.of(1)));
         p_344835_.register(RAID_PILLAGER_POST_WAVE_5, new SingleEnchantment(holdergetter.getOrThrow(Enchantments.QUICK_CHARGE), ConstantInt.of(2)));

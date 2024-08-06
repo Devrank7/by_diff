@@ -1,0 +1,15 @@
+{
+  "difficulty": "Difficulty",
+  "difficulty.peaceful": "Peaceful",
+  "difficulty.peaceful.info": "No hostile mobs and only some neutral mobs spawn. Hunger bar doesn't deplete and health replenishes over time.",
+  "difficulty.easy": "Easy",
+  "difficulty.easy.info": "Hostile mobs spawn but deal less damage. Hunger bar depletes and drains health down to 5 hearts.",
+  "difficulty.normal": "Normal",
+  "difficulty.normal.info": "Hostile mobs spawn and deal standard damage. Hunger bar depletes and drains health down to half a heart.",
+  "difficulty.hard": "Hard",
+  "difficulty.hard.info": "Hostile mobs spawn and deal more damage. Hunger bar depletes and drains all health.",
+  "difficulty.insane": "Insane",
+  "difficulty.insane.info": "Hostile mobs are extremely strong and even smart and deal a lot of damage, increased chance of spawning in good armor with good enchantment. Hunger bar drains quickly and sucks out all health.",
+  "difficulty.nightmare": "Nightmare",
+  "difficulty.nightmare.info": "Hostile mobs are incredibly strong, danger will be everywhere, they will spawn extremely often and almost always in amazing armor with very good enchantments, mobs can inflict extremely bad effects on you when attacking. The hunger bar depletes instantly and sucks out all health. (Highly not recommended for beginners)"
+}

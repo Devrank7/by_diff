@@ -62,7 +62,6 @@ public class MixOptionalScreen {
                 this.lockButton.setLocked(screen.getMinecraft().level.getLevelData().isDifficultyLocked());
                 this.lockButton.active = !this.lockButton.isLocked();
                 this.difficultyButton.active = !this.lockButton.isLocked();
-                System.out.println("Difficulty locked: " + this.lockButton.isLocked());
                 EqualSpacingLayout equalspacinglayout = new EqualSpacingLayout(150, 0, EqualSpacingLayout.Orientation.HORIZONTAL);
                 equalspacinglayout.addChild(this.difficultyButton);
                 equalspacinglayout.addChild(this.lockButton);
@@ -80,9 +79,7 @@ public class MixOptionalScreen {
 
     private CycleButton<DifficultyGeneral> myDifficultyButton(int p_262051_, int p_261805_, String p_261598_, Minecraft p_261922_) {
         DifficultyGeneral serverDifficulty = getServerDifficulty();
-        System.out.println("Server difficulty: " + serverDifficulty);
         return CycleButton.builder(DifficultyGeneral::getName).withValues(DifficultyGeneral.values()).withInitialValue(serverDifficulty).create(p_262051_, p_261805_, 150, 20, Component.translatable(p_261598_), (p_296186_, p_296187_) -> {
-            System.out.println("Given difficulty: " + p_296187_);
             DifficultyHandler.isNeedToUpdate = true;
             ModMessage.sendToServer(new PChangeDifficult(p_296187_));
         });

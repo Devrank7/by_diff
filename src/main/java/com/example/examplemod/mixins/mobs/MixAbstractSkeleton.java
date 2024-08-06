@@ -15,8 +15,8 @@ import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.StainedGlassBlock;
-import net.minecraft.world.level.block.TintedGlassBlock;
+import net.minecraft.world.level.block.*;
+import net.minecraftforge.common.Tags;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -34,7 +34,7 @@ public abstract class MixAbstractSkeleton extends Monster {
     @Final
     private RangedBowAttackGoal<AbstractSkeleton> bowGoal;
 
-    private ShootAtGoal shootAtGoal = new ShootAtGoal(((AbstractSkeleton) (Object) this), StainedGlassBlock.class, 50, 10, 1.0f, 20, 10.0F);
+    private ShootAtGoal shootAtGoal = new ShootAtGoal(((AbstractSkeleton) (Object) this), TransparentBlock.class, 50, 10, 1.0f, 20, 10.0F);
 
     @Shadow
     protected abstract AbstractArrow getArrow(ItemStack p_32156_, float p_32157_, @Nullable ItemStack p_343583_);

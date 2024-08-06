@@ -6,6 +6,7 @@ import com.example.examplemod.intrtfaces.ILevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
@@ -106,9 +107,6 @@ public class MixDifficultyInstance implements IDifficultyInstance {
             throw new NullPointerException("difficultyGeneral is null");
         }
         effectiveDifficulty = calculateDifficulty(level.getDifficulty(), dayTime, chunkTime, moonPhase);
-        if (level.getRandom().nextFloat() < 0.00001f) {
-            System.err.println("Effective difficulty: " + effectiveDifficulty);
-        }
     }
 
     @Unique

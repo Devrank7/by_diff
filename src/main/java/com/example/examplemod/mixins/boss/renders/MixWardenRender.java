@@ -24,7 +24,6 @@ public class MixWardenRender extends MobRenderer<Warden, WardenModel<Warden>> {
 
     @Inject(method = "<init>", at = @At("TAIL"), remap = false)
     public void onInit(EntityRendererProvider.Context p_234787_, CallbackInfo info) {
-        System.err.println("INIT WARDEN RENDERER");
         this.addLayer(new WardenArmorModel(this, p_234787_.getModelSet()));
     }
 

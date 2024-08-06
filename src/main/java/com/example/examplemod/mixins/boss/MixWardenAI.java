@@ -67,7 +67,6 @@ public class MixWardenAI {
                 new SonicBoom(),
                 MeleeAttack.create(callback)
         ), MemoryModuleType.ATTACK_TARGET);
-        System.err.println("Warden initFightActivity: callback = " + callback + "& speed = " + speed);
     }
 
     private static boolean isServer(Level level) {
